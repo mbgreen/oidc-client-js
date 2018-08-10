@@ -2,10 +2,10 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 let nopLogger = {
-    debug(){},
-    info(){},
-    warn(){},
-    error(){}
+    debug: function () { },
+    info: function () { },
+    warn: function () { },
+    error: function () { }
 };
 
 const NONE = 0;
@@ -18,63 +18,63 @@ let logger;
 let level;
 
 export class Log {
-    static get NONE() {return NONE};
-    static get ERROR() {return ERROR};
-    static get WARN() {return WARN};
-    static get INFO() {return INFO};
-    static get DEBUG() {return DEBUG};
-    
-    static reset(){
+    static get NONE() { return NONE };
+    static get ERROR() { return ERROR };
+    static get WARN() { return WARN };
+    static get INFO() { return INFO };
+    static get DEBUG() { return DEBUG };
+
+    static reset() {
         level = INFO;
         logger = nopLogger;
     }
-    
-    static get level(){
+
+    static get level() {
         return level;
     }
-    static set level(value){
-        if (NONE <= value && value <= DEBUG){
+    static set level(value) {
+        if (NONE <= value && value <= DEBUG) {
             level = value;
         }
         else {
             throw new Error("Invalid log level");
         }
     }
-    
-    static get logger(){
+
+    static get logger() {
         return logger;
     }
-    static set logger(value){
+    static set logger(value) {
         if (!value.debug && value.info) {
             // just to stay backwards compat. can remove in 2.0
             value.debug = value.info;
         }
 
-        if (value.debug && value.info && value.warn && value.error){
+        if (value.debug && value.info && value.warn && value.error) {
             logger = value;
         }
         else {
             throw new Error("Invalid logger");
         }
     }
-    
-    static debug(...args){
-        if (level >= DEBUG){
+
+    static debug(...args) {
+        if (level >= DEBUG) {
             logger.debug.apply(logger, Array.from(args));
         }
     }
-    static info(...args){
-        if (level >= INFO){
+    static info(...args) {
+        if (level >= INFO) {
             logger.info.apply(logger, Array.from(args));
         }
     }
-    static warn(...args){
-        if (level >= WARN){
+    static warn(...args) {
+        if (level >= WARN) {
             logger.warn.apply(logger, Array.from(args));
         }
     }
-    static error(...args){
-        if (level >= ERROR){
+    static error(...args) {
+        if (level >= ERROR) {
             logger.error.apply(logger, Array.from(args));
         }
     }
